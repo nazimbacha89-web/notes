@@ -222,7 +222,7 @@
 
   <!-- ONGLETS PRINCIPAUX style original -->
   <div class="main-tabs-bar">
-    <button class="mtab on" onclick="MT(this,'m-abdo')">Abdo</button><button class="mtab" onclick="MT(this,'m-cerv')">Cervical</button><button class="mtab" onclick="MT(this,'m-paroi')">Paroi</button><button class="mtab" onclick="MT(this,'m-pelv')">Pelvis F</button><button class="mtab" onclick="MT(this,'m-uro')">Uro</button><button class="mtab" onclick="MT(this,'m-rx')">Rx</button><button class="mtab" onclick="MT(this,'m-neuro')">Neuro</button>
+    <button class="mtab on" onclick="MT(this,'m-abdo')">Abdo</button><button class="mtab" onclick="MT(this,'m-cerv')">Cervical</button><button class="mtab" onclick="MT(this,'m-paroi')">Paroi</button><button class="mtab" onclick="MT(this,'m-pelv')">Pelvis F</button><button class="mtab" onclick="MT(this,'m-uro')">Uro</button><button class="mtab" onclick="MT(this,'m-rx')">Rx</button><button class="mtab" onclick="MT(this,'m-tdm')">TDM</button>
   </div>
   <div class="main-wrap">
     <div id="m-abdo" class="mpanel on">
@@ -781,431 +781,205 @@ Pas d'anomalie des structures osseuses.</pre><button class="copy" onclick="C('p-
     </div>
   </div>
     </div>
-    <!-- ══ NEURO ══ -->
-    <div id="m-neuro" class="mpanel">
-      <div class="block">
-        <div class="block-header">Neuro — Scanner &amp; IRM cérébraux</div>
+    <!-- ══ TDM ══ -->
+    <div id="m-tdm" class="mpanel">
+      <div class="block" id="b-tdm">
+        <div class="block-header">TDM</div>
         <div class="block-body">
           <div class="tabs">
-            <button class="tab on"  onclick="T(this,'neuro','n-avc')">AVC</button>
-            <button class="tab"     onclick="T(this,'neuro','n-hemo')">Hémorragie</button>
-            <button class="tab"     onclick="T(this,'neuro','n-tc')">Traumatisme crânien</button>
-            <button class="tab"     onclick="T(this,'neuro','n-sep')">SEP</button>
-            <button class="tab"     onclick="T(this,'neuro','n-gbm')">Tumeurs</button>
-            <button class="tab"     onclick="T(this,'neuro','n-dem')">Démences</button>
-            <button class="tab"     onclick="T(this,'neuro','n-hypo')">Hypophyse</button>
-            <button class="tab"     onclick="T(this,'neuro','n-htic')">HTIC</button>
-            <button class="tab"     onclick="T(this,'neuro','n-park')">Parkinson</button>
-            <button class="tab"     onclick="T(this,'neuro','n-ped')">Pédiatrie</button>
-            <button class="tab"     onclick="T(this,'neuro','n-cr')">CR génériques</button>
+            <button class="tab on" onclick="T(this,'tdm','tdm-cr')">Crâne</button>
+            <button class="tab"    onclick="T(this,'tdm','tdm-tho')">Thorax</button>
+            <button class="tab"    onclick="T(this,'tdm','tdm-aptap')">APTAP</button>
+            <button class="tab"    onclick="T(this,'tdm','tdm-angio')">AngioMI</button>
           </div>
 
-          <!-- AVC -->
-          <div id="n-avc" class="panel on">
-            <div class="info">🧠 AVC = urgence absolue · Délai thrombolyse IV &lt; 4h30 · Thrombectomie mécanique &lt; 24h si mismatch · Score ASPECTS (0–10) : ≥ 6 = éligible thrombolyse</div>
-            <div class="sub-title">Scanner cérébral natif — Normal (élimine hémorragie)</div>
-            <div class="cr"><pre id="p-avc-nat">Pas d'hyperdensité spontanée intra-parenchymateuse ni extra-axiale.
-Pas de signe précoce d'ischémie : absence d'effacement des sillons corticaux, respect de la différenciation substance grise / substance blanche, pas de signe de l'artère hyperdense.
-Score ASPECTS : 10/10.
-Pas d'hémorragie méningée ni ventriculaire.
-Cavités ventriculaires de taille normale, sans déviation de la ligne médiane.
-Pas de lésion osseuse décelable au cadre osseux.</pre><button class="copy" onclick="C('p-avc-nat',this)">Copier</button></div>
-
-            <div class="sub-title">Scanner cérébral natif — Ischémie constituée</div>
-            <div class="cr"><pre id="p-avc-isc">Hypodensité parenchymateuse dans le territoire de l'artère [ACM D/G / ACP / ACA / tronc basilaire], intéressant [description topographique].
-Score ASPECTS :  /10.
-[Artère hyperdense visible en regard de M1 droite/gauche.]
-Pas d'hémorragie associée.
-Cavités ventriculaires de taille normale. Pas de déviation de la ligne médiane.</pre><button class="copy" onclick="C('p-avc-isc',this)">Copier</button></div>
-
-            <div class="sub-title">IRM cérébrale — Protocole AVC aigu (DWI + FLAIR + TOF + T2*)</div>
-            <div class="cr"><pre id="p-avc-irm">Séquences réalisées : DWI, ADC, FLAIR, T2*, T1 SE, ARM TOF intracrânienne.
-
-Diffusion : restriction de diffusion (hypersignal DWI / hyposignal ADC) dans le territoire [ACM D/G superficiel/profond / ACP / cervelet].
-Topographie : [gyrus frontal sup, insula, noyau lenticulaire…].
-Volume estimé de l'ischémie : ~ cm³.
-
-FLAIR : [absence / présence] d'hypersignal FLAIR dans la zone de diffusion → mismatch DWI-FLAIR [oui / non] (ischémie &lt; 4h30 si mismatch).
-
-T2* : absence d'hémorragie intra-parenchymateuse ou de microsaignements.
-
-ARM TOF : [occlusion / réduction de calibre] de [M1 / M2 / tronc basilaire] [droite / gauche].
-Pas d'anévrisme ni de malformation vasculaire décelable.
-
-FLAIR méningé : pas d'hypersignal méningé évoquant une méningite ou une hémorragie sous-arachnoïdienne.</pre><button class="copy" onclick="C('p-avc-irm',this)">Copier</button></div>
-
-            <div class="sub-title">Angio-scanner TSA + cérébral (bilan étiologique)</div>
-            <div class="cr"><pre id="p-avc-angio">AngioTDM des troncs supra-aortiques et du polygone de Willis.
-
-Sténose [degré NASCET %] de [l'artère carotide interne D/G] au niveau [cervical / siphon / bifurcation].
-Perméabilité des artères vertébrales. Pas de dissection décelable.
-Polygone de Willis complet, sans anévrisme ni malformation artérioveineuse.
-Pas d'occlusion artérielle intracrânienne.
-
-Parenchyme cérébral : [cf scanner natif associé].</pre><button class="copy" onclick="C('p-avc-angio',this)">Copier</button></div>
-
-            <div class="info">
-              <a href="https://radiopaedia.org/articles/aspects-score" target="_blank">Score ASPECTS</a> &nbsp;|&nbsp;
-              <a href="https://radiopaedia.org/articles/ischaemic-stroke" target="_blank">Ischémie (radiopaedia)</a> &nbsp;|&nbsp;
-              <a href="https://www.sfnr.net/" target="_blank">SFNR</a>
+          <!-- CRÂNE -->
+          <div id="tdm-cr" class="panel on">
+            <div class="tabs">
+              <button class="tab on" onclick="T(this,'tdmcr','tdm-cr-vieux')">Vieux</button>
+              <button class="tab"    onclick="T(this,'tdmcr','tdm-cr-jeune')">Jeune</button>
             </div>
-            <div class="img-row">
-              <img src="https://drlef.fr/assets/ASPECTS.jpg" alt="ASPECTS" onerror="this.style.display='none'"/>
+            <div id="tdm-cr-vieux" class="panel on">
+              <div class="cr"><pre id="p-tdm-cr-vieux">Acquisition hélicoïdale sur le crâne sans injection.
+
+Structures médianes encéphaliques en place.
+Elargissement passif des espaces liquidiens intra et péri-cérébraux.
+Absence de processus expansif intracrânien.
+Respect des noyaux gris centraux.
+Leucopathie périventriculaire d'allure vasculaire.
+Bonne aération des sinus de la face et des cellules mastoïdiennes.
+Cadre osseux sans particularité.</pre><button class="copy" onclick="C('p-tdm-cr-vieux',this)">Copier</button></div>
+            </div>
+            <div id="tdm-cr-jeune" class="panel">
+              <div class="cr"><pre id="p-tdm-cr-jeune">Acquisition hélicoïdale sur le crâne sans injection.
+
+Structures médianes encéphaliques en place.
+Intégrité des espaces liquidiens intra et péri-cérébraux.
+Absence de processus expansif intracrânien.
+Respect des noyaux gris centraux.
+Pas d'anomalie dans la substance blanche.
+Bonne aération des sinus de la face et des cellules mastoïdiennes.
+Cadre osseux sans particularité.</pre><button class="copy" onclick="C('p-tdm-cr-jeune',this)">Copier</button></div>
             </div>
           </div>
 
-          <!-- HEMORRAGIE -->
-          <div id="n-hemo" class="panel">
-            <div class="info">⚡ Hémorragie intracérébrale spontanée : éliminer cause secondaire (MAV, anévrisme, thrombose veineuse, tumeur) selon topographie et âge</div>
-            <div class="sub-title">Scanner — Hématome intra-parenchymateux</div>
-            <div class="cr"><pre id="p-hemo-hip">Collection hyperdense intra-parenchymateuse [lobaire / profonde : putamen, thalamus, noyau caudé] [droite / gauche], de densité ~ UH, mesurant x  mm, de volume estimé ~ mL (formule ABC/2).
-[Effet de masse : effacement des sillons, déviation de la ligne médiane de  mm vers la droite/gauche.]
-[Extension intraventriculaire aux cornes frontales / occipitales / 4ème ventricule.]
-Pas de signe d'engagement temporal.
-Pas d'hémorragie sous-arachnoïdienne associée.
-Cadre osseux sans fracture.</pre><button class="copy" onclick="C('p-hemo-hip',this)">Copier</button></div>
+          <!-- THORAX -->
+          <div id="tdm-tho" class="panel">
+            <div class="tabs">
+              <button class="tab on" onclick="T(this,'tdmtho','tdm-tho-sans')">Sans</button>
+              <button class="tab"    onclick="T(this,'tdmtho','tdm-tho-ep')">EP</button>
+            </div>
+            <div id="tdm-tho-sans" class="panel on">
+              <div class="cr"><pre id="p-tdm-tho-sans">Acquisition hélicoïdale sur le thorax sans injection.
 
-            <div class="sub-title">Scanner — Hémorragie sous-arachnoïdienne (HSA)</div>
-            <div class="cr"><pre id="p-hsa">Hyperdensité spontanée dans les espaces sous-arachnoïdiens : [citerne sylvienne D/G, citerne basale, sillons corticaux…].
-Score Fisher modifié : [grade 1-4].
-Pas d'hydrocéphalie.
-[Engagement cérébelleux à préciser.]
-Angio-scanner à réaliser en urgence pour recherche d'anévrisme.
+Intégrité de la trachée et des bronches proximales.
+Pas de nodule suspect dans le parenchyme pulmonaire.
+Pas d'adénomégalie médiastino-hilaire ni axillaire.
+Absence d'épanchement pleural ou péricardique.
+Coupes sous-diaphragmatiques sans particularité.
+Pas d'anomalie dans le cadre osseux.</pre><button class="copy" onclick="C('p-tdm-tho-sans',this)">Copier</button></div>
+            </div>
+            <div id="tdm-tho-ep" class="panel">
+              <div class="cr"><pre id="p-tdm-tho-ep">Acquisition hélicoïdale sur le thorax après injection au temps artériel.
 
-Angio-scanner : [anévrisme / absence d'anévrisme] [localisation : ACoA, ACI, ACM, ACP, basilaire] de  mm de diamètre.</pre><button class="copy" onclick="C('p-hsa',this)">Copier</button></div>
-
-            <div class="sub-title">Scanner — Thrombose veineuse cérébrale</div>
-            <div class="cr"><pre id="p-tvc">Hyperdensité spontanée dans [le sinus longitudinal supérieur / sinus latéral D/G / sinus droit / veine de Galien].
-[Signe du triangle dense / signe du delta vide à l'injection.]
-[Hypodensité parenchymateuse avec ou sans transformation hémorragique en regard, à topographie non systématisée.]
-Pas d'autre anomalie parenchymateuse.
-Angio-scanner veineux : défect de remplissage dans [sinus longitudinal supérieur / sinus latéral D/G].</pre><button class="copy" onclick="C('p-tvc',this)">Copier</button></div>
-
-            <div class="info">
-              Volume hématome = A × B × C / 2 (A = grand axe, B = petit axe, C = nb coupes × épaisseur coupe) &nbsp;|&nbsp;
-              <a href="https://radiopaedia.org/articles/modified-fisher-scale" target="_blank">Score Fisher modifié</a>
+Absence d'embolie pulmonaire jusqu'au niveau segmentaire.
+Absence de dilatation des cavités cardiaques droites.
+Pas d'adénomégalie ni d'épanchement pleuro-péricardique.
+Pas de nodule suspect dans le parenchyme pulmonaire.
+Coupes sous-diaphragmatiques sans particularité.
+Pas d'anomalie dans le cadre osseux.</pre><button class="copy" onclick="C('p-tdm-tho-ep',this)">Copier</button></div>
             </div>
           </div>
 
-          <!-- TRAUMATISME CRANIEN -->
-          <div id="n-tc" class="panel">
-            <div class="info">🪖 TC grave = GCS &lt; 8 · Fenêtre os indispensable · Chercher engagement, pneumencéphale, lésion axonale diffuse</div>
-            <div class="sub-title">Scanner cérébral — TC sans lésion significative</div>
-            <div class="cr"><pre id="p-tc-norm">Pas de fracture du crâne ni de la base.
-Pas d'épanchement extra-axial (extradural, sous-dural).
-Pas d'hémorragie intra-parenchymateuse ni sous-arachnoïdienne traumatique.
-Pas de contusion corticale.
-Cavités ventriculaires de taille normale, sans déviation de la ligne médiane.
-Pneumencéphale absent.
-Structures de la fosse postérieure et tronc cérébral sans lésion décelable.</pre><button class="copy" onclick="C('p-tc-norm',this)">Copier</button></div>
+          <!-- APTAP -->
+          <div id="tdm-aptap" class="panel">
+            <div class="tabs">
+              <button class="tab on" onclick="T(this,'tdmap','tdm-ap-vieux')">Vieux</button>
+              <button class="tab"    onclick="T(this,'tdmap','tdm-ap-jeune')">Jeune</button>
+              <button class="tab"    onclick="T(this,'tdmap','tdm-ap-sans')">Sans</button>
+              <button class="tab"    onclick="T(this,'tdmap','tdm-ap-f3')">F3</button>
+              <button class="tab"    onclick="T(this,'tdmap','tdm-ap-f4')">F4</button>
+              <button class="tab"    onclick="T(this,'tdmap','tdm-ap-uro')">Uro</button>
+              <button class="tab"    onclick="T(this,'tdmap','tdm-ap-tap')">TAP</button>
+            </div>
+            <div id="tdm-ap-vieux" class="panel on">
+              <div class="cr"><pre id="p-tdm-ap-vieux">Acquisitions hélicoïdales sans puis après injection au temps portal.
 
-            <div class="sub-title">Hématome extradural (HED)</div>
-            <div class="cr"><pre id="p-hed">Collection hyperdense extra-axiale biconvexe [frontale / pariétale / temporale] [droite / gauche], mesurant  mm d'épaisseur maximale.
-[Fracture linéaire temporale en regard avec probable lésion de l'artère méningée moyenne.]
-Effet de masse : [effacement des sillons / déviation de la ligne médiane de  mm / compression ventriculaire].
-Pas d'engagement temporal.
-[Bulle aérique en son sein, témoignant d'une fracture ouverte ou d'une plaie pénétrante.]</pre><button class="copy" onclick="C('p-hed',this)">Copier</button></div>
+Absence d'épanchement péritonéal.
+Perméabilité des vaisseaux mésentériques et hépatiques.
+Pas d'adénomégalie coeliomésentérique, rétropéritonéale ni pelvienne.
+Surrénales, reins, foie, vésicule, pancréas et rate sans particularité.
+Pas de lésion significative dans les bases pulmonaires.
+Pas d'anomalie dans le cadre osseux.</pre><button class="copy" onclick="C('p-tdm-ap-vieux',this)">Copier</button></div>
+            </div>
+            <div id="tdm-ap-jeune" class="panel">
+              <div class="cr"><pre id="p-tdm-ap-jeune">Acquisition hélicoïdale après injection au temps portal.
 
-            <div class="sub-title">Hématome sous-dural (HSD)</div>
-            <div class="cr"><pre id="p-hsd">Collection extra-axiale en croissant [hyperdense / isodense / hypodense / mixte] [fronto-pariétale / hémisphérique] [droite / gauche], d'épaisseur maximale de  mm.
-[Aspect bilatéral.]
-Effet de masse : déviation de la ligne médiane de  mm.
-[Engagement sous-falcoriel / temporal à préciser.]
-Pas de contusion parenchymateuse sous-jacente décelable.
+Absence d'épanchement péritonéal.
+Perméabilité des vaisseaux mésentériques et hépatiques.
+Pas d'adénomégalie coeliomésentérique, rétropéritonéale ni pelvienne.
+Surrénales, reins, foie, vésicule, pancréas et rate sans particularité.
+Pas de lésion significative dans les bases pulmonaires.
+Pas d'anomalie dans le cadre osseux.</pre><button class="copy" onclick="C('p-tdm-ap-jeune',this)">Copier</button></div>
+            </div>
+            <div id="tdm-ap-sans" class="panel">
+              <div class="cr"><pre id="p-tdm-ap-sans">Acquisition hélicoïdale abdomino-pelvienne sans injection.
 
-→ [Aigu (hyperdense) / Subaigu (isodense) / Chronique (hypodense)]</pre><button class="copy" onclick="C('p-hsd',this)">Copier</button></div>
+Pas de dilatation des cavités pyélocalicielles.
+Absence d'image lithiasique urinaire.
+Reins de taille et de morphologie normales.
+Pas d'épanchement péritonéal ni d'adénomégalie.
+Surrénales, foie, vésicule, pancréas et rate sans particularité.
+Pas de lésion significative dans les bases pulmonaires.
+Pas d'anomalie dans le cadre osseux.</pre><button class="copy" onclick="C('p-tdm-ap-sans',this)">Copier</button></div>
+            </div>
+            <div id="tdm-ap-f3" class="panel">
+              <div class="cr"><pre id="p-tdm-ap-f3">Acquisition hélicoïdale sans injection sur l'abdomen.
+Acquisition après injection au temps artériel sur l'abdomen.
+Acquisition au temps veineux sur l'abdomen et le pelvis.
 
-            <div class="info">
-              <a href="https://radiopaedia.org/articles/diffuse-axonal-injury" target="_blank">Lésion axonale diffuse</a> : hyperdensités punctiformes à la jonction SG/SB, corps calleux, tronc cérébral &nbsp;|&nbsp;
-              <a href="https://radiopaedia.org/articles/epidural-haematoma" target="_blank">HED</a>
+Pancréas de taille et de morphologie normales, sans lésion focale.
+Pas de dilatation du canal pancréatique ni des voies biliaires.
+Vésicule biliaire d'aspect normal, sans image lithiasique.
+Perméabilité des vaisseaux mésentériques et hépatiques.
+Absence d'épanchement péritonéal.
+Pas d'adénomégalie coeliomésentérique, rétropéritonéale ni pelvienne.
+Surrénales, reins, foie et rate sans particularité.
+Pas de lésion significative dans les bases pulmonaires.
+Pas d'anomalie dans le cadre osseux.</pre><button class="copy" onclick="C('p-tdm-ap-f3',this)">Copier</button></div>
+            </div>
+            <div id="tdm-ap-f4" class="panel">
+              <div class="cr"><pre id="p-tdm-ap-f4">Acquisition hélicoïdale sans injection sur l'abdomen.
+Acquisition après injection au temps artériel sur l'abdomen.
+Acquisition au temps veineux sur l'abdomen et le pelvis.
+Acquisition au temps tardif sur l'abdomen.
+
+Dysmorphie hépatique avec contours bosselés.
+Absence de lésion hépatique hypervascularisée ou en washout.
+Perméabilité des vaisseaux hépatiques afférents et efférents.
+Vésicule biliaire d'aspect normal. Pas de dilatation des voies biliaires.
+Pas d'adénomégalie coeliomésentérique, rétropéritonéale ni pelvienne.
+Surrénales, reins, pancréas et rate sans particularité.
+Pas de lésion significative dans les bases pulmonaires.
+Pas d'anomalie dans le cadre osseux.</pre><button class="copy" onclick="C('p-tdm-ap-f4',this)">Copier</button></div>
+            </div>
+            <div id="tdm-ap-uro" class="panel">
+              <div class="cr"><pre id="p-tdm-ap-uro">Après injection de furosémide, acquisitions sans puis après injection de produit de contraste aux temps cortical, médullaire et excréteur.
+
+Absence de lésion décelable dans les voies urinaires.
+Reins de taille et de morphologies normales.
+Absence de lésion rénale suspecte.
+Pas d'épanchement péritonéal.
+Pas d'adénomégalie rétropéritonéale ni pelvienne.
+Perméabilité des vaisseaux mésentériques et hépatiques.
+Surrénales, foie, vésicule, pancréas et rate sans particularité.
+Pas de lésion significative dans les bases pulmonaires.
+Pas d'anomalie dans le cadre osseux.</pre><button class="copy" onclick="C('p-tdm-ap-uro',this)">Copier</button></div>
+            </div>
+            <div id="tdm-ap-tap" class="panel">
+              <div class="cr"><pre id="p-tdm-ap-tap">Acquisition hélicoïdale sans injection sur l'abdomen.
+Acquisition thoraco-abdominale après injection au temps artériel.
+Acquisition abdomino-pelvienne au temps portal.
+
+Thorax :
+Intégrité de la trachée et des bronches proximales.
+Pas de nodule suspect dans le parenchyme pulmonaire.
+Pas d'adénomégalie ni d'épanchement pleuro-péricardique.
+
+Abdomen et pelvis :
+Absence d'épanchement péritonéal.
+Perméabilité des vaisseaux mésentériques et hépatiques.
+Pas d'adénomégalie coeliomésentérique, rétropéritonéale ni pelvienne.
+Surrénales, reins, foie, vésicule, pancréas et rate sans particularité.
+
+Cadre osseux :
+Absence de lésion suspecte dans les limites de la modalité d'imagerie.</pre><button class="copy" onclick="C('p-tdm-ap-tap',this)">Copier</button></div>
             </div>
           </div>
 
-          <!-- SEP -->
-          <div id="n-sep" class="panel">
-            <div class="info">🔵 Critères McDonald 2017 : dissémination spatiale (≥2 zones : périventriculaire, corticale/juxta-corticale, infratentorielle, médullaire) ET temporelle (lésions Gd+ et non Gd+ simultanées, ou nouvelle lésion T2/Gd+)</div>
-            <div class="sub-title">IRM cérébrale — Bilan SEP / poussée</div>
-            <div class="cr"><pre id="p-sep">IRM cérébrale multimodale (T2, FLAIR, T1, T1 Gd, DWI).
+          <!-- ANGIO MI -->
+          <div id="tdm-angio" class="panel">
+            <div class="cr"><pre id="p-tdm-angio">Acquisition hélicoïdale abdomino-pelvienne et sur les membres inférieurs après injection de produit de contraste au temps artériel.
 
-Hypersignaux T2/FLAIR de la substance blanche :
-- Périventriculaires : [nombre] lésions, à disposition perpendiculaire aux ventricules (doigts de Dawson) [oui/non].
-- Juxta-corticales / corticales : [nombre] lésions.
-- Infratentorielles (protubérance, cervelet, pédoncules) : [nombre] lésions.
-- Sous-tentorielles : [nombre] lésions.
+Athéromatose calcifiée de l'aorte et de ses branches.
+Perméabilité sans sténose significative des artères rénales et de l'AMS.
 
-Total : [n] lésions T2 (&gt; 3 mm).
+A droite :
+Perméabilité sans sténose significative des artères iliaques.
 
-Prise de contraste (T1 Gd) : [absence de] rehaussement en anneau ou nodulaire → [pas de] lésion active.
+A gauche :
+Perméabilité sans sténose significative des artères iliaques.
 
-DWI : pas de restriction de diffusion.
-
-[IRM médullaire associée : hypersignaux T2 en regard de [C3-C5], s'étendant sur [n] vertèbres, inférieur à la moitié de la section médullaire.]
-
-Évolution par rapport à l'IRM du [date] : [stabilité / apparition de n nouvelles lésions T2 / disparition du rehaussement].</pre><button class="copy" onclick="C('p-sep',this)">Copier</button></div>
-            <div class="info">
-              <a href="https://radiopaedia.org/articles/multiple-sclerosis" target="_blank">SEP (radiopaedia)</a> &nbsp;|&nbsp;
-              <a href="https://www.mcdonald-criteria.com/" target="_blank">Critères McDonald 2017</a> &nbsp;|&nbsp;
-              DD : NMOSD (lésions étendues médullaires), encéphalite auto-immune, maladie de Lyme, PACNS
-            </div>
-          </div>
-
-          <!-- TUMEURS / GBM -->
-          <div id="n-gbm" class="panel">
-            <div class="info">🔴 Tumeurs cérébrales : classification OMS 2021 (grade I-IV). GBM = grade IV IDH sauvage. Méningiomes = extra-axiaux. Métastases = jonction SG/SB, souvent multiples</div>
-            <div class="sub-title">IRM cérébrale — Masse suspecte (bilan initial)</div>
-            <div class="cr"><pre id="p-gbm">IRM cérébrale multimodale avec injection de gadolinium.
-
-Masse [intra / extra-axiale] [lobaire / profonde] [droite / gauche], siège [frontal / temporal / pariétal / occipital / fosse post], mesurant   x  x  mm.
-
-Signal : [iso / hypo / hypersignal] T1, [iso / hypersignal] T2/FLAIR.
-Rehaussement : [absent / en anneau irrégulier / homogène / hétérogène].
-Nécrose centrale : [oui / non].
-Œdème périlésionnel : [absent / modéré / important], s'étendant sur  mm.
-Effet de masse : [déviation de la ligne médiane de  mm / compression ventriculaire].
-
-DWI : [restriction / pas de restriction] de diffusion.
-Spectroscopie (si réalisée) : [pic de choline, effondrement du NAA, pic de lactate/lipides].
-Perfusion (si réalisée) : rCBV [élevé / normal] évoquant [haute / basse] vascularisation.
-
-Pas d'autre lésion identifiée.
-[Carcinomatose méningée : hypersignal méningé FLAIR / prise de contraste leptoméningée.]</pre><button class="copy" onclick="C('p-gbm',this)">Copier</button></div>
-
-            <div class="sub-title">Méningiome</div>
-            <div class="cr"><pre id="p-mening">Masse extra-axiale à base d'implantation durale [fronto-pariétale / sphénoïdale / convexité / faux du cerveau], mesurant  x  x  mm.
-Isointense T1, iso à légèrement hypointense T2, rehaussement intense et homogène après injection.
-[Queue durale présente.]
-Effet de masse modéré sur le parenchyme adjacent, sans œdème périlésionnel significatif.
-[Calcifications intratumorales visibles.]
-Pas d'invasion osseuse.
-Stabilité / progression par rapport à l'examen du [date].</pre><button class="copy" onclick="C('p-mening',this)">Copier</button></div>
-
-            <div class="sub-title">Métastases cérébrales</div>
-            <div class="cr"><pre id="p-meta">Lésion(s) à la jonction substance grise/substance blanche [nombre] :
-- [Localisation] :  x  mm, rehaussement [en anneau / nodulaire], œdème périlésionnel [modéré / important].
-[- Localisation 2 :  x  mm.]
-Pas d'autre lésion décelable.
-Effet de masse global : [déviation ligne médiane de  mm].
-Carcinomatose méningée : [absente / à évoquer devant…].</pre><button class="copy" onclick="C('p-meta',this)">Copier</button></div>
-
-            <div class="info">
-              <a href="https://radiopaedia.org/articles/glioblastoma-idh-wild-type" target="_blank">GBM (radiopaedia)</a> &nbsp;|&nbsp;
-              <a href="https://radiopaedia.org/articles/who-classification-of-cns-tumours-2021" target="_blank">Classification OMS 2021</a>
-            </div>
-          </div>
-
-          <!-- DEMENCES -->
-          <div id="n-dem" class="panel">
-            <div class="info">🧩 Alzheimer : atrophie hippocampique bilatérale (score MTA) + cortex temporo-pariétal · DFT : atrophie frontale et insulaire · DLB : atrophie occipitale · Vasculaire : leucopathie, lacunes</div>
-            <div class="sub-title">IRM cérébrale — Bilan cognitif / démence</div>
-            <div class="cr"><pre id="p-dem">IRM cérébrale (T1 volumétrique, T2, FLAIR, T2*, DWI, ARM).
-
-Atrophie corticale : [absente / modérée / sévère], prédominant en [frontale / temporale / pariétale / globale].
-Score MTA (atrophie hippocampique) : [D: /4 — G: /4] (normal &lt; 60 ans : 0 ; 60-75 ans : ≤1 ; &gt;75 ans : ≤2).
-Hippocampes : [taille normale / réduction bilatérale / asymétrique prédominant à droite/gauche].
-
-Hypersignaux FLAIR de la substance blanche (leucopathie vasculaire, score de Fazekas) :
-- Périventriculaire : [0-3].
-- Sous-cortical : [0-3].
-
-T2* : [absence / présence] de microsaignements (microbleeds) en [lobaire / profond / mixte].
-
-Lacunes : [absence / lacunes silencieuses en] [putamen / thalamus / corona radiata].
-
-ARM intracrânienne : perméabilité du polygone de Willis, [sténose éventuelle].
-
-Pas de lésion focale suspecte, pas d'hydrocéphalie.
-
-Conclusion : tableau évocateur d'une [maladie d'Alzheimer / démence vasculaire / DFT / autres]. Corrélation clinique et neuropsychologique recommandée.</pre><button class="copy" onclick="C('p-dem',this)">Copier</button></div>
-
-            <div class="info">
-              Score MTA (Scheltens) — coupe coronale sur hippocampe : 0 = normal, 4 = atrophie sévère &nbsp;|&nbsp;
-              <a href="https://radiopaedia.org/articles/medial-temporal-lobe-atrophy-scale" target="_blank">Score MTA (radiopaedia)</a> &nbsp;|&nbsp;
-              <a href="https://radiopaedia.org/articles/fazekas-scale-for-white-matter-lesions" target="_blank">Score Fazekas</a>
-            </div>
-            <table>
-              <thead><tr><th>Score MTA</th><th>Interprétation (&gt;75 ans)</th></tr></thead>
-              <tbody>
-                <tr><td>0</td><td>Normal</td></tr>
-                <tr><td>1</td><td>Évasement de la fissure choroïdienne</td></tr>
-                <tr><td>2</td><td>Élargissement de la corne temporale</td></tr>
-                <tr><td>3</td><td>Réduction hippocampique modérée</td></tr>
-                <tr><td>4</td><td>Réduction hippocampique sévère</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- HYPOPHYSE -->
-          <div id="n-hypo" class="panel">
-            <div class="info">🔭 IRM hypophyse : coupes coronales et sagittales T1 ± Gd, T2 — Microadénome &lt; 10 mm / Macroadénome ≥ 10 mm · Chercher extension supra-sellaire, caverneuse, chiasma optique</div>
-            <div class="sub-title">IRM hypophysaire — Microadénome</div>
-            <div class="cr"><pre id="p-hypo-micro">IRM hypophysaire dédiée (coupes fines coronales et sagittales T1 SE, T2, T1 Gd dynamique).
-
-Hypophyse de taille normale ( x  x  mm — norme : hauteur &lt; 8 mm femme / &lt; 6 mm homme, &lt; 10-12 mm grossesse).
-Tige pituitaire médiane, de calibre normal.
-Chiasma optique en position normale, sans compression.
-
-Zone d'hyposignal T1 relatif / hypersignal T2 [droite / gauche] intrahypophysaire, mesurant  mm, en hypo-rehaussement relatif lors de la séquence dynamique → aspect compatible avec un microadénome.
-
-Pas d'extension extra-sellaire.
-Sinus caverneux libres.
-Pas d'anomalie du chiasma optique.</pre><button class="copy" onclick="C('p-hypo-micro',this)">Copier</button></div>
-
-            <div class="sub-title">IRM hypophysaire — Macroadénome</div>
-            <div class="cr"><pre id="p-hypo-macro">Volumineuse masse sellaire et supra-sellaire mesurant  x  x  mm.
-Signal T1 [iso / hypo / hétérogène], T2 [iso / hypersignal].
-Rehaussement [homogène / hétérogène] après injection de gadolinium.
-[Extension supra-sellaire avec contact / refoulement / compression du chiasma optique.]
-[Extension intra-caverneuse [droite / gauche] : enclavement du siphon carotidien (Knosp  /4).]
-[Envahissement du sinus sphénoïdal.]
-[Hémorragie intralésionnelle / nécrose : hypersignal T1 spontané en regard de…]
-
-Pas d'autre lésion sellaire ou para-sellaire.</pre><button class="copy" onclick="C('p-hypo-macro',this)">Copier</button></div>
-
-            <div class="info">
-              Grade de Knosp (envahissement caverneux) : 0 = pas d'extension, 4 = enclavement complet &nbsp;|&nbsp;
-              <a href="https://radiopaedia.org/articles/knosp-classification-of-pituitary-adenomas" target="_blank">Knosp (radiopaedia)</a>
-            </div>
-          </div>
-
-          <!-- HTIC -->
-          <div id="n-htic" class="panel">
-            <div class="info">⚠️ HTIC : signes indirects sur imagerie = hydrocéphalie, œdème, engagement. HTIC idiopathique = hypersignal orbites T2, selle turcique vide, sténoses des sinus transverses</div>
-            <div class="sub-title">Scanner — Hydrocéphalie</div>
-            <div class="cr"><pre id="p-hydro">Dilatation des cavités ventriculaires [bi- / triventriculaire / tétraventriculaire], intéressant [cornes frontales / temporales / occipitales / 4ème ventricule].
-Indice bicaudé : [valeur] (norme &lt; 0,16).
-[Hypodensité périventriculaire au niveau des cornes frontales témoignant d'une résorption transépendymaire.]
-Aqueduc [perméable / non visible / sténosé].
-Pas de cause obstructive évidente sur ce scanner (IRM complémentaire recommandée).
-Pas d'hémorragie intraventriculaire.
-Sillons corticaux [effacés / normaux].</pre><button class="copy" onclick="C('p-hydro',this)">Copier</button></div>
-
-            <div class="sub-title">IRM — HTIC idiopathique (pseudotumor cerebri)</div>
-            <div class="cr"><pre id="p-htic-idi">Cavités ventriculaires de taille normale à légèrement réduites.
-Selle turcique [vide / partiellement vide] avec hernie arachnoïdienne.
-[Élargissement bilatéral des gaines des nerfs optiques intra-orbitaires (> 5,8 mm) avec aplatissement du pôle postérieur des globes oculaires et protrusion des papilles.]
-Sténoses des sinus veineux transverses [bilatérales / prédominant à droite/gauche] sur l'ARM veineuse.
-Tige pituitaire fine.
-Pas de masse sous-jacente, pas d'hydrocéphalie.
-Pas de lésion parenchymateuse.
-
-Aspect compatible avec une hypertension intracrânienne idiopathique. Corrélation avec fond d'œil et PL recommandée.</pre><button class="copy" onclick="C('p-htic-idi',this)">Copier</button></div>
-          </div>
-
-          <!-- PARKINSON -->
-          <div id="n-park" class="panel">
-            <div class="info">🔵 IRM Parkinson : souvent normale en début d'évolution. Chercher: atrophie mésencéphalique (AMS, PSP), signe du colibri (PSP), atrophie putaminale (AMS-P). SWI: perte du « swallow-tail sign » dans la substance noire</div>
-            <div class="sub-title">IRM cérébrale — Bilan syndrome parkinsonien</div>
-            <div class="cr"><pre id="p-park">IRM cérébrale multimodale (T1, T2, FLAIR, T2*, SWI, DWI).
-
-Mésencéphale : [morphologie normale / atrophie du toit mésencéphalique → signe du colibri absent/présent (PSP)].
-Substance noire : [signal normal / perte du « swallow-tail sign » en SWI suggestif de dépôts de fer].
-Putamen : [signal normal / hypersignal T2 postéro-latéral / atrophie évocatrice d'AMS-P].
-Cervelet et pédoncules cérébelleux moyens : [normaux / atrophie + hypersignal T2 → croix du beurre en T2 (AMS-C)].
-Corps calleux : [normal / amincissement de la partie postérieure (PSP)].
-
-Leucopathie vasculaire (Fazekas) : périventriculaire [0-3], sous-cortical [0-3].
-Microsaignements (SWI / T2*) : [absents / présents en…].
-Atrophie corticale : [absente / présente en…].
-
-Pas d'hydrocéphalie, pas de lésion focale suspecte.
-
-Conclusion : [pas d'anomalie structurelle en faveur d'un Parkinsonisme atypique / aspect compatible avec PSP / AMS-P / AMS-C]. Corrélation clinique recommandée.</pre><button class="copy" onclick="C('p-park',this)">Copier</button></div>
-
-            <div class="info">
-              <a href="https://radiopaedia.org/articles/hummingbird-sign" target="_blank">Signe du colibri (PSP)</a> &nbsp;|&nbsp;
-              <a href="https://radiopaedia.org/articles/hot-cross-bun-sign-1" target="_blank">Croix du beurre (AMS)</a> &nbsp;|&nbsp;
-              <a href="https://radiopaedia.org/articles/swallow-tail-sign-mri-brain" target="_blank">Swallow-tail sign (SWI)</a>
-            </div>
-          </div>
-
-          <!-- PEDIATRIE NEURO -->
-          <div id="n-ped" class="panel">
-            <div class="info">👶 Neuropédiatrie : myélinisation en cours jusqu'à 2 ans — signal T1/T2 inversé avant 6 mois. Fontanelle antérieure : fermeture vers 18 mois. ETF = premier examen chez le prématuré</div>
-            <div class="sub-title">Échographie transfontanellaire (ETF) — Normal</div>
-            <div class="cr"><pre id="p-etf">Examen par voie transfontanellaire (coupes coronales et sagittales).
-
-Structures médianes en place (faux du cerveau, corps calleux complet).
-Cavités ventriculaires de taille normale :
-- Cornes frontales : indice ventriculaire =  (norme &lt; 0,35).
-- 3ème ventricule :  mm (norme &lt; 3 mm).
-Parenchyme cérébral d'échogénicité homogène, sans image lésionnelle.
-Pas de lésion hyperéchogène périventriculaire.
-Pas d'hémorragie intra ou périventriculaire.
-Pas d'anomalie décelable de la fosse postérieure (cavum magnum, 4ème ventricule, cervelet).
-Pas d'épanchement péricérébral.</pre><button class="copy" onclick="C('p-etf',this)">Copier</button></div>
-
-            <div class="sub-title">ETF — Hémorragie intraventriculaire (HIV) — Classification Papile</div>
-            <div class="cr"><pre id="p-hiv">Hyperéchogénicité [périventriculaire / intraventriculaire] [bilatérale / prédominant à droite/gauche].
-Grade de Papile :
-- Grade I : hémorragie sous-épendymaire isolée.
-- Grade II : hémorragie intraventriculaire sans dilatation.
-- Grade III : hémorragie intraventriculaire avec dilatation ventriculaire.
-- Grade IV : hémorragie parenchymateuse associée (PVHI).
-
-Stade actuel : grade  [droite / gauche / bilatéral].
-[Dilatation ventriculaire : indice ventriculaire =  — à surveiller.]
-Pas d'autre anomalie parenchymateuse décelable.</pre><button class="copy" onclick="C('p-hiv',this)">Copier</button></div>
-
-            <div class="sub-title">IRM cérébrale pédiatrique — Épilepsie</div>
-            <div class="cr"><pre id="p-irm-epi">IRM cérébrale dédiée épilepsie (protocole haute résolution : FLAIR, T2, T1 3D, DWI, T2* SWI, IR axial).
-
-Myélinisation adaptée à l'âge du patient ([n] mois / ans).
-Pas d'anomalie de gyration (lissencéphalie, pachygyrie, polymicrogyrie).
-Pas d'hétérotopie en bandes ou nodulaire.
-Pas de dysplasie corticale focale : absence d'anomalie de signal cortical ou de la jonction SG/SB.
-[Hypersignal FLAIR temporal interne droit/gauche avec réduction volumétrique de l'hippocampe → sclérose hippocampique.]
-Pas de lésion tumorale, vasculaire ou inflammatoire décelable.
-Pas d'anomalie de la ligne médiane.
-Pas de calcification visible.
-
-Conclusion : [examen normal pour l'âge / anomalie à type de…].</pre><button class="copy" onclick="C('p-irm-epi',this)">Copier</button></div>
-          </div>
-
-          <!-- CR GENERIQUES -->
-          <div id="n-cr" class="panel">
-            <div class="sub-title">Scanner cérébral natif — Normal</div>
-            <div class="cr"><pre id="p-scan-norm">Pas d'hyperdensité spontanée intra- ou extra-axiale.
-Différenciation substance grise / substance blanche conservée.
-Cavités ventriculaires de taille normale. Pas de déviation de la ligne médiane.
-Sillons corticaux ouverts, adaptés à l'âge.
-Fosse postérieure sans anomalie décelable.
-Pas de lésion osseuse du cadre crânien.</pre><button class="copy" onclick="C('p-scan-norm',this)">Copier</button></div>
-
-            <div class="sub-title">IRM cérébrale — Normal (générique)</div>
-            <div class="cr"><pre id="p-irm-norm">IRM cérébrale multimodale (T1, T2, FLAIR, DWI, T2*, T1 Gd).
-
-Pas d'anomalie de signal parenchymateux en T2 ou FLAIR.
-Pas de restriction de diffusion.
-Pas de prise de contraste anormale après injection de gadolinium.
-Cavités ventriculaires de taille normale, pas de déviation de la ligne médiane.
-Sillons corticaux ouverts, adaptés à l'âge.
-ARM intracrânienne (si réalisée) : perméabilité du polygone de Willis, pas d'anévrisme ni de malformation vasculaire décelable.
-Structures de la fosse postérieure sans anomalie.
-Pas d'anomalie des orbites ni des rochers sur les coupes disponibles.
-
-Conclusion : IRM cérébrale sans anomalie significative.</pre><button class="copy" onclick="C('p-irm-norm',this)">Copier</button></div>
-
-            <div class="sub-title">IRM du rachis cervical — Normal</div>
-            <div class="cr"><pre id="p-rachis-cerv">Moelle épinière de signal et de calibre normaux de C1 à C7. Pas de syringomyélie.
-Lordose cervicale physiologique conservée.
-Corps vertébraux de hauteur normale, sans tassement ni fracture.
-Disques intervertébraux de signal normal.
-Pas de hernie discale compressive aux différents niveaux.
-Foramens intervertébraux libres.
-Pas d'anomalie des parties molles prévertébrales.</pre><button class="copy" onclick="C('p-rachis-cerv',this)">Copier</button></div>
-
-            <div class="sub-title">IRM de la moelle épinière — Normal</div>
-            <div class="cr"><pre id="p-moelle">Moelle épinière de signal homogène, de calibre normal sur l'ensemble de son trajet, sans lésion focale intra-médullaire.
-Pas de syringomyélie.
-Pas de compression extrinsèque.
-Cône médullaire en position normale (L1-L2).
-Canal rachidien de diamètre normal aux différents étages.
-Racines de la queue de cheval libres sans agglutination.</pre><button class="copy" onclick="C('p-moelle',this)">Copier</button></div>
+Par ailleurs :
+Pas d'épanchement péritonéal ni d'adénomégalie.
+Surrénales, foie, vésicule, pancréas et rate sans particularité.
+Troubles ventilatoires banals dans les bases pulmonaires.
+Pas d'anomalie dans le cadre osseux.</pre><button class="copy" onclick="C('p-tdm-angio',this)">Copier</button></div>
           </div>
 
         </div><!-- /block-body -->
       </div><!-- /block -->
-    </div><!-- /m-neuro -->
+    </div><!-- /m-tdm -->
   </div>
   </div>
 </main>
