@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Neuro — CR — Dr. Bacha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #f6f6f6;
+      --white: #ffffff;
+      --border: #e0e0e0;
+      --accent: #2b6cb0;
+      --accent-light: #ebf4ff;
+      --text: #1a1a1a;
+      --text-muted: #555;
+      --code-bg: #1e1e1e;
+      --code-text: #d4d4d4;
+      --radius: 8px;
+      --shadow: 0 1px 6px rgba(0,0,0,0.09);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+
+    header {
+      background: #1a202c; color: #fff;
+      padding: 0 1.5rem; height: 54px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 200;
+    }
+    .logo { font-size: 1rem; font-weight: 600; }
+    .logo a { color: #fff; text-decoration: none; }
+    .logo span { color: #90cdf4; font-weight: 300; margin-left: 8px; font-size: 0.85rem; }
+    .search-bar {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px; padding: 6px 14px;
+      flex: 1; max-width: 300px; margin: 0 1.5rem;
+    }
+    .search-bar input { background: none; border: none; outline: none; color: #fff; font-family: inherit; font-size: 13px; width: 100%; }
+    .search-bar input::placeholder { color: rgba(255,255,255,0.4); }
+
+    nav { background: var(--white); border-bottom: 1px solid var(--border); overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+    nav::-webkit-scrollbar { display: none; }
+    .nav-inner { display: inline-flex; padding: 0 1rem; }
+    .nav-item { position: relative; }
+    .nav-link { display: inline-flex; align-items: center; gap: 4px; padding: 12px 14px; font-size: 13px; font-weight: 500; color: #333; text-decoration: none; border-bottom: 2px solid transparent; cursor: pointer; transition: color .15s, border-color .15s; user-select: none; }
+    .nav-link:hover, .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .dropdown { display: none; position: absolute; top: 100%; left: 0; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 4px 16px rgba(0,0,0,0.12); min-width: 170px; z-index: 300; padding: 4px 0; }
+    .nav-item:hover .dropdown { display: block; }
+    .dropdown a { display: block; padding: 7px 16px; font-size: 13px; color: var(--text); text-decoration: none; }
+    .dropdown a:hover { background: var(--accent-light); color: var(--accent); }
+
+    main { max-width: 1080px; margin: 0 auto; padding: 1rem 1.25rem 3rem; }
+
+    h1.page-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 1rem; color: var(--text); }
+
+    .block { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 0.8rem; overflow: hidden; }
+    .block-header { padding: 6px 14px; background: #f4f4f4; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 13px; color: #222; }
+    .block-body { padding: 10px 14px; }
+
+    .tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+    .tab { padding: 4px 10px; font-size: 12px; font-weight: 500; border: 1px solid var(--border); border-radius: 16px; background: var(--white); color: var(--text-muted); cursor: pointer; transition: all .13s; }
+    .tab.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .tab:hover:not(.on) { border-color: var(--accent); color: var(--accent); }
+    .panel { display: none; }
+    .panel.on { display: block; }
+
+    .cr { position: relative; margin-bottom: 10px; }
+    .cr pre { background: var(--code-bg); color: var(--code-text); padding: 12px 52px 12px 14px; border-radius: var(--radius); font-family: 'Courier New', monospace; font-size: 12.5px; line-height: 1.65; white-space: pre-wrap; border-left: 3px solid var(--accent); }
+    .copy { position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #aaa; border-radius: 5px; padding: 3px 9px; font-size: 11px; cursor: pointer; font-family: inherit; transition: all .13s; }
+    .copy:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .copy.ok { background: #276749; color: #fff; border-color: #276749; }
+
+    .info { background: var(--accent-light); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 8px 12px; font-size: 12.5px; color: #1a365d; margin-bottom: 10px; line-height: 1.6; }
+    .info a { color: var(--accent); }
+
+    .sub-title { font-size: 13px; font-weight: 600; margin: 10px 0 6px; }
+    .sub-label { font-size: 12.5px; font-weight: 600; color: var(--text-muted); margin: 8px 0 4px; }
+
+    @media (max-width: 600px) {
+      header { padding: 0 .75rem; }
+      .search-bar { max-width: 140px; margin: 0 .5rem; }
+      main { padding: 1rem .75rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🩻 <a href="../../index.html">Notes radiologiques</a><span>Dr. Bacha</span></div>
+  <div class="search-bar">
+    <span>🔍</span>
+    <input type="text" placeholder="Rechercher…" oninput="search(this.value)"/>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-item"><a class="nav-link" href="../../index.html">Accueil</a></div>
+    <div class="nav-item">
+      <span class="nav-link">Femme ▾</span>
+      <div class="dropdown">
+        <a href="https://drlef.fr/femme/urg/">Urg</a><a href="https://drlef.fr/femme/EPP/">EPP</a><a href="https://drlef.fr/femme/seins/">Seins</a>
+        <a href="https://drlef.fr/femme/uterus/">Utérus</a><a href="https://drlef.fr/femme/ovaires/">Ovaires</a><a href="https://drlef.fr/femme/hystero/">Hystéro</a>
+        <a href="https://drlef.fr/femme/prolapsus/">Prolapsus</a><a href="https://drlef.fr/femme/pelviscanner/">Pelviscanner</a>
+        <a href="https://drlef.fr/femme/malformations/">Malformations</a><a href="https://drlef.fr/femme/puberte/">Puberté précoce</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link">Thorax ▾</span>
+      <div class="dropdown">
+        <a href="https://drlef.fr/thorax/ep/">Urgences</a><a href="https://drlef.fr/thorax/nodules/">Nodules</a><a href="https://drlef.fr/thorax/mediastin/">Médiastin</a>
+        <a href="https://drlef.fr/thorax/infections/">Infections</a><a href="https://drlef.fr/thorax/bronches/">Bronches</a><a href="https://drlef.fr/thorax/cavites/">Cavités</a>
+        <a href="https://drlef.fr/thorax/plevre/">Plèvre</a><a href="https://drlef.fr/thorax/malfo/">Malfo</a><a href="https://drlef.fr/thorax/PID/">PID</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link">Cardio ▾</span>
+      <div class="dropdown">
+        <a href="https://drlef.fr/cardio/EI/">EI</a><a href="https://drlef.fr/cardio/FA/">FA</a><a href="https://drlef.fr/cardio/AAo/">AAo</a>
+        <a href="https://drlef.fr/cardio/malfo/">Malfo</a><a href="https://drlef.fr/cardio/cac/">Score CAC</a><a href="https://drlef.fr/cardio/cadrads/">CAD-RADS</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link active">Neuro ▾</span>
+      <div class="dropdown">
+        <a href="https://drlef.fr/neuro/mort/">Mort</a><a href="https://drlef.fr/neuro/AVC/">AVC</a><a href="https://drlef.fr/neuro/TC/">TC</a>
+        <a href="index.html">CR</a><a href="https://drlef.fr/neuro/SEP/">SEP</a><a href="https://drlef.fr/neuro/gbm/">GBM</a>
+        <a href="https://drlef.fr/neuro/HTIC/">h/HTIC</a><a href="https://drlef.fr/neuro/park/">Parkinson</a>
+        <a href="https://drlef.fr/neuro/démences/">Démences</a><a href="https://drlef.fr/neuro/hypophyse/">Hypophyse</a><a href="https://drlef.fr/neuro/ped/">Pédiatrie</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link">ORL ▾</span>
+      <div class="dropdown">
+        <a href="https://drlef.fr/ORL/amygdales/">Amygdalite</a><a href="https://drlef.fr/ORL/tumeurs/">Tumeurs</a><a href="https://drlef.fr/ORL/sinus/">Sinus</a>
+        <a href="https://drlef.fr/ORL/CR/">CR</a><a href="https://drlef.fr/ORL/rocher/">Rocher</a><a href="https://drlef.fr/ORL/ped/">Pédiatrie</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link">Uro ▾</span>
+      <div class="dropdown">
+        <a href="https://drlef.fr/uro/reins/">Reins</a><a href="https://drlef.fr/uro/vessie/">Vessie</a><a href="https://drlef.fr/uro/greffon/">Greffon</a>
+        <a href="https://drlef.fr/uro/lithiase/">Lithiase</a><a href="https://drlef.fr/uro/prostate/">Prostate</a><a href="https://drlef.fr/uro/ouraque/">Ouraque</a>
+        <a href="https://drlef.fr/uro/lymphome/">Lymphome</a><a href="https://drlef.fr/uro/derivations/">Dérivations</a>
+        <a href="https://drlef.fr/uro/retrope/">Rétropéritoine</a><a href="https://drlef.fr/uro/malfo/">Malformations</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link">Dig ▾</span>
+      <div class="dropdown">
+        <a href="https://drlef.fr/dig/anatomie/">Anat</a><a href="https://drlef.fr/dig/foie/">Foie</a><a href="https://drlef.fr/dig/rate/">Rate</a>
+        <a href="https://drlef.fr/dig/grele/">Grêle</a><a href="https://drlef.fr/dig/pancreas/">Pancréas</a><a href="https://drlef.fr/dig/surrénales/">Surrénales</a>
+        <a href="https://drlef.fr/dig/caustique/">Caustique</a><a href="https://drlef.fr/dig/pedia/">Urg péd</a><a href="https://drlef.fr/dig/gestes/">Gestes</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link">Os ▾</span>
+      <div class="dropdown">
+        <a href="https://drlef.fr/os/echorx/">Echo et Rx</a><a href="https://drlef.fr/os/inflammatoire/">Inflammatoire</a>
+        <a href="https://drlef.fr/os/fractures/">Fractures</a><a href="https://drlef.fr/os/tumeurs/">Tumeurs</a>
+        <a href="https://drlef.fr/os/rachis/">Rachis</a><a href="https://drlef.fr/os/genou/">Genou</a>
+      </div>
+    </div>
+    <div class="nav-item"><a class="nav-link" href="https://drlef.fr/PDC/">PDC</a></div>
+    <div class="nav-item"><a class="nav-link" href="https://drlef.fr/AVP/">AVP</a></div>
+    <div class="nav-item">
+      <span class="nav-link">Outils ▾</span>
+      <div class="dropdown">
+        <a href="https://drlef.fr/outils/PSAd/">PSAd</a><a href="https://drlef.fr/outils/dose/">Dose</a><a href="https://drlef.fr/outils/haller/">Haller</a>
+        <a href="https://drlef.fr/outils/recist/">RECIST</a><a href="https://drlef.fr/outils/cheson/">Cheson</a><a href="https://drlef.fr/outils/prostate/">Prostate</a>
+        <a href="https://drlef.fr/outils/thyroide/">Thyroïde</a><a href="https://drlef.fr/outils/nascet/">NASCET</a><a href="https://drlef.fr/outils/volumes/">Volumes</a>
+        <a href="https://drlef.fr/outils/pasvenu/">Pas venu</a><a href="https://drlef.fr/outils/fleischner/">Fleischner</a>
+        <a href="https://drlef.fr/outils/biometrie/">Biométrie neuropéd</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <h1 class="page-title">Modèles de comptes rendus</h1>
+
+  <div class="block">
+    <div class="block-header">CR neuro</div>
+    <div class="block-body">
+      <div class="tabs">
+        <button class="tab on" onclick="T(this,'crneuro','cr-meta')">méta</button>
+        <button class="tab"    onclick="T(this,'crneuro','cr-tumeur')">tumeur</button>
+        <button class="tab"    onclick="T(this,'crneuro','cr-cephalees')">céphalées</button>
+        <button class="tab"    onclick="T(this,'crneuro','cr-coma')">coma</button>
+        <button class="tab"    onclick="T(this,'crneuro','cr-medullaire')">médullaire</button>
+        <button class="tab"    onclick="T(this,'crneuro','cr-psy')">psy</button>
+      </div>
+
+      <!-- META -->
+      <div id="cr-meta" class="panel on">
+        <div class="cr"><pre id="p-meta">Séquences axiales diffusion et T1 écho de spin. 3D FLAIR.
+Après injection de gadolinium, SWI et 3D T1 écho de spin FS.
+
+Structures de la ligne médiane en place.
+Pas de lésion ischémique ou hémorragique récente.    
+Intégrité des espaces liquidiens intra et péri-cérébraux.
+Absence de prise de contraste suspecte de lésion secondaire.
+Pas de microsaignement chronique ni de stigmate hémorragique.
+Leucopathie périventriculaire vraisemblablement vasculaire, classée Fazekas
+Trophicité cortico-sous-corticale en rapport avec l'âge.
+Pas d'anomalie de morphologie ou de signal en fosse postérieure.
+Pas de lésion de remplacement médullaire de la boîte crânienne.</pre><button class="copy" onclick="C('p-meta',this)">Copier</button></div>
+
+        <div class="info">
+          <a href="https://radiopaedia.org/articles/haemorrhagic-intracranial-tumours?lang=us" target="_blank">Métas hémorragiques</a> : mélanome, CCC rénal, choriocarcinome, thyroïde<br>
+          <a href="https://radiopaedia.org/articles/cerebral-ring-enhancing-lesions-differential" target="_blank">DD PDC en cocarde</a> : Méta, Abcès, Glio, Infarctus, Contusion (hématome), Démyélinisation, Radionécrose
+        </div>
+      </div>
+
+      <!-- TUMEUR -->
+      <div id="cr-tumeur" class="panel">
+        <div class="cr"><pre id="p-tumeur">Séquences axiales diffusion et T1 écho de spin. 3D FLAIR.
+Après injection de gadolinium, perfusion T2*, axiale T2*, et 3D T1 SE.
+
+Structures de la ligne médiane en place.
+Intégrité des espaces liquidiens intra et péri-cérébraux.</pre><button class="copy" onclick="C('p-tumeur',this)">Copier</button></div>
+      </div>
+
+      <!-- CEPHALEES -->
+      <div id="cr-cephalees" class="panel">
+        <div class="sub-label">IV+</div>
+        <div class="cr"><pre id="p-ceph-iv">Séquences axiales diffusion, FLAIR, T1 SE, et T2*.
+Après injection de gadolinium, ARM veineuse et 3D T1 EG.
+
+Structures de la ligne médiane en place.
+Intégrité des espaces liquidiens intra et péri-cérébraux.
+Pas de lésion ischémique ou hémorragique récente ni séquellaire.
+Perméabilité des sinus veineux péri-encéphaliques et des veines corticales.
+Pas de signe d'hypertension ou d'hypotension intracrânienne.
+Absence d'anomalie de signal de la substance blanche.
+Respect de la trophicité cortico-sous-corticale.
+Pas d'anomalie en fosse postérieure.
+Absence de comblement sinusien.
+Pas de prise de contraste pathologique.</pre><button class="copy" onclick="C('p-ceph-iv',this)">Copier</button></div>
+
+        <div class="sub-label">IV−</div>
+        <div class="cr"><pre id="p-ceph-sans">Séquences axiale diffusion, 3D FLAIR, axiale T2*, 3D TOF, et coronale T2 sur les orbites.
+
+Structures de la ligne médiane en place.
+Intégrité des espaces liquidiens intra et péri-cérébraux.
+Pas de lésion ischémique ou hémorragique récente ni séquellaire.
+Perméabilité des artères du polygone de Willis, sans image d'addition.
+Pas d'anomalie de signal dans les sinus veineux péri-encéphaliques.
+Pas de signe d'hypertension ou d'hypotension intracrânienne.
+Absence d'anomalie de signal dans la substance blanche.
+Respect de la trophicité cortico-sous-corticale.
+Pas d'anomalie en fosse postérieure.
+Absence de comblement sinusien.</pre><button class="copy" onclick="C('p-ceph-sans',this)">Copier</button></div>
+      </div>
+
+      <!-- COMA -->
+      <div id="cr-coma" class="panel">
+        <div class="cr"><pre id="p-coma">Acquisitions sans puis après injection au temps artériel.
+
+Structures médianes encéphaliques en place.
+Pas de lésion hémorragique intracrânienne récente.
+Respect des espaces liquidiens intra et péri-cérébraux.
+Pas d'anomalie des noyaux gris centraux ni en fosse postérieure.
+Perméabilité du tronc basilaire des artères du polygone de Willis.
+Pas de lésion osseuse décelable.</pre><button class="copy" onclick="C('p-coma',this)">Copier</button></div>
+      </div>
+
+      <!-- MEDULLAIRE -->
+      <div id="cr-medullaire" class="panel">
+        <div class="cr"><pre id="p-med">Séquences sagittales T2 STIR, et T1 sans puis après injection de gadolinium. 
+
+Projection du cône terminal en regard de .
+Respect des espaces liquidiens périmédullaires.
+Cordon médullaire de trophicité normale, sans anomalie de signal.
+Pas d'anomalie inflammatoire somato-discale.
+Respect de la hauteur des corps vertébraux.
+Pas de lésion de remplacement médullaire suspecte.
+Pas de prise de contraste pathologique du cordon médullaire, du cône terminal, des racines de la queue de cheval, ou du cul-de-sac dural.</pre><button class="copy" onclick="C('p-med',this)">Copier</button></div>
+      </div>
+
+      <!-- PSY -->
+      <div id="cr-psy" class="panel">
+        <div class="cr"><pre id="p-psy">Séquences axiales diffusion, FLAIR, T2* et 3D T1 EG.
+
+Structures médianes en place.
+Pas de syndrome de masse intracrânien.
+Pas d'anomalie des noyaux gris centraux.
+Respect de la trophicité cortico-sous-corticale.
+Absence d'anomalie de signal de la substance blanche.
+Intégrité des espaces liquidiens intra et péri-cérébraux.
+Pas de lésion ischémique ou hémorragique récente ni séquellaire.</pre><button class="copy" onclick="C('p-psy',this)">Copier</button></div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script>
+function T(btn, group, panelId) {
+  const tabsEl = btn.closest('.tabs');
+  const container = tabsEl.parentElement;
+  tabsEl.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  Array.from(container.children).forEach(el => { if (el.classList.contains('panel')) el.classList.remove('on'); });
+  btn.classList.add('on');
+  document.getElementById(panelId).classList.add('on');
+}
+
+function C(id, btn) {
+  navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
+    btn.textContent = '✓ Copié';
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = 'Copier'; btn.classList.remove('ok'); }, 2000);
+  });
+}
+
+function search(q) {
+  q = q.toLowerCase().trim();
+  document.querySelectorAll('.block').forEach(b => {
+    b.style.display = (!q || b.textContent.toLowerCase().includes(q)) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
