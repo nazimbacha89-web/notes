@@ -40,14 +40,35 @@
     .search-bar input { background: none; border: none; outline: none; color: #fff; font-family: inherit; font-size: 13px; width: 100%; }
     .search-bar input::placeholder { color: rgba(255,255,255,0.4); }
 
-    nav { background: var(--white); border-bottom: 1px solid var(--border); overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+    nav { background: var(--white); border-bottom: 1px solid var(--border); overflow-x: auto; overflow-y: visible; white-space: nowrap; scrollbar-width: none; position: relative; z-index: 150; }
     nav::-webkit-scrollbar { display: none; }
     .nav-inner { display: inline-flex; padding: 0 1rem; }
     .nav-item { position: relative; }
     .nav-link { display: inline-flex; align-items: center; gap: 4px; padding: 12px 14px; font-size: 13px; font-weight: 500; color: #333; text-decoration: none; border-bottom: 2px solid transparent; cursor: pointer; transition: color .15s, border-color .15s; user-select: none; }
     .nav-link:hover, .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
-    .dropdown { display: none; position: absolute; top: 100%; left: 0; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 4px 16px rgba(0,0,0,0.12); min-width: 170px; z-index: 300; padding: 4px 0; }
-    .nav-item:hover .dropdown { display: block; }
+
+    /* Menu déroulant : position fixed pour ne pas être coupé par le nav scrollable,
+       max-height + overflow-y:auto pour pouvoir défiler si trop long */
+    .dropdown {
+      display: none;
+      position: fixed;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      min-width: 170px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      z-index: 300;
+      padding: 4px 0;
+    }
+    .nav-item.open > .dropdown { display: block; }
+    /* Au survol sur ordi uniquement (les vrais hovers, pas le tap mobile) */
+    @media (hover: hover) and (pointer: fine) {
+      .nav-item:hover > .dropdown { display: block; }
+    }
     .dropdown a { display: block; padding: 7px 16px; font-size: 13px; color: var(--text); text-decoration: none; }
     .dropdown a:hover { background: var(--accent-light); color: var(--accent); }
 
@@ -1017,6 +1038,76 @@ function search(q) {
     b.style.display = (!q || b.textContent.toLowerCase().includes(q)) ? '' : 'none';
   });
 }
+
+/* ============ MENU DEROULANT ============
+   - Au clic sur un nav-link de type span (pas un lien <a>), on ouvre/ferme le dropdown
+   - Le dropdown est en position:fixed, donc on calcule sa position sous le parent
+   - Au clic ailleurs, on ferme tout
+   - Au scroll de la nav, on ferme aussi (sinon le dropdown reste flottant)
+*/
+(function() {
+  const navItems = document.querySelectorAll('.nav-item');
+
+  function closeAll() {
+    navItems.forEach(it => it.classList.remove('open'));
+  }
+
+  function positionDropdown(item) {
+    const link = item.querySelector('.nav-link');
+    const dd = item.querySelector('.dropdown');
+    if (!link || !dd) return;
+    const r = link.getBoundingClientRect();
+    dd.style.top = r.bottom + 'px';
+    // Si le menu déborde à droite, on l'aligne à droite du parent
+    const ddWidth = dd.offsetWidth || 170;
+    let left = r.left;
+    if (left + ddWidth > window.innerWidth - 8) {
+      left = Math.max(8, window.innerWidth - ddWidth - 8);
+    }
+    dd.style.left = left + 'px';
+  }
+
+  navItems.forEach(item => {
+    const link = item.querySelector('.nav-link');
+    const dd = item.querySelector('.dropdown');
+    if (!link || !dd) return; // pas de dropdown = pas concerné
+
+    // Clic sur le label parent : ouvre/ferme
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      const wasOpen = item.classList.contains('open');
+      closeAll();
+      if (!wasOpen) {
+        item.classList.add('open');
+        positionDropdown(item);
+      }
+    });
+
+    // Repositionne aussi quand on survole (desktop) au cas où
+    item.addEventListener('mouseenter', () => positionDropdown(item));
+  });
+
+  // Fermer si on clique en dehors
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.nav-item')) closeAll();
+  });
+
+  // Fermer si on scrolle la nav horizontalement (sinon dropdown reste figé)
+  const nav = document.querySelector('nav');
+  if (nav) nav.addEventListener('scroll', closeAll, { passive: true });
+
+  // Repositionner si on redimensionne la fenêtre
+  window.addEventListener('resize', () => {
+    const open = document.querySelector('.nav-item.open');
+    if (open) positionDropdown(open);
+  });
+
+  // Fermer si on appuie sur Echap
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeAll();
+  });
+})();
 </script>
 </body>
 </html>
