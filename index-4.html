@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TC — Traumatismes cranio-faciaux | Notes radiologiques</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #f6f6f6;
+      --white: #ffffff;
+      --border: #e0e0e0;
+      --accent: #2b6cb0;
+      --accent-light: #ebf4ff;
+      --text: #1a1a1a;
+      --text-muted: #555;
+      --code-bg: #1e1e1e;
+      --code-text: #d4d4d4;
+      --radius: 8px;
+      --shadow: 0 1px 6px rgba(0,0,0,0.09);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+
+    header {
+      background: #1a202c; color: #fff;
+      padding: 0 1.5rem; height: 54px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 200;
+    }
+    .logo { font-size: 1rem; font-weight: 600; }
+    .logo a { color: inherit; text-decoration: none; }
+    .logo span { color: #90cdf4; font-weight: 300; margin-left: 8px; font-size: 0.85rem; }
+    .search-bar {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px; padding: 6px 14px;
+      flex: 1; max-width: 300px; margin: 0 1.5rem;
+    }
+    .search-bar input { background: none; border: none; outline: none; color: #fff; font-family: inherit; font-size: 13px; width: 100%; }
+    .search-bar input::placeholder { color: rgba(255,255,255,0.4); }
+
+    nav { background: var(--white); border-bottom: 1px solid var(--border); overflow-x: auto; overflow-y: visible; white-space: nowrap; scrollbar-width: none; position: relative; z-index: 150; }
+    nav::-webkit-scrollbar { display: none; }
+    .nav-inner { display: inline-flex; padding: 0 1rem; }
+    .nav-item { position: relative; }
+    .nav-link { display: inline-flex; align-items: center; gap: 4px; padding: 12px 14px; font-size: 13px; font-weight: 500; color: #333; text-decoration: none; border-bottom: 2px solid transparent; cursor: pointer; transition: color .15s, border-color .15s; user-select: none; }
+    .nav-link:hover, .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .dropdown {
+      display: none;
+      position: fixed;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      min-width: 170px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      z-index: 300;
+      padding: 4px 0;
+    }
+    .nav-item.open > .dropdown { display: block; }
+    @media (hover: hover) and (pointer: fine) {
+      .nav-item:hover > .dropdown { display: block; }
+    }
+    .dropdown a { display: block; padding: 7px 16px; font-size: 13px; color: var(--text); text-decoration: none; }
+    .dropdown a:hover { background: var(--accent-light); color: var(--accent); }
+
+    main { max-width: 1080px; margin: 0 auto; padding: 1rem 1.25rem 3rem; }
+
+    .page-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: #1a202c; }
+    .page-title a { color: var(--accent); text-decoration: none; }
+    .page-title a:hover { text-decoration: underline; }
+
+    .block { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 0.8rem; overflow: hidden; }
+    .block-header { padding: 6px 14px; background: #f4f4f4; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 13px; color: #222; }
+    .block-body { padding: 10px 14px; }
+
+    .tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+    .tab { padding: 4px 10px; font-size: 12px; font-weight: 500; border: 1px solid var(--border); border-radius: 16px; background: var(--white); color: var(--text-muted); cursor: pointer; transition: all .13s; }
+    .tab.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .tab:hover:not(.on) { border-color: var(--accent); color: var(--accent); }
+    .panel { display: none; }
+    .panel.on { display: block; }
+
+    .cr { position: relative; margin-bottom: 10px; }
+    .cr pre { background: var(--code-bg); color: var(--code-text); padding: 12px 52px 12px 14px; border-radius: var(--radius); font-family: 'Courier New', monospace; font-size: 12.5px; line-height: 1.65; white-space: pre-wrap; border-left: 3px solid var(--accent); }
+    .copy { position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #aaa; border-radius: 5px; padding: 3px 9px; font-size: 11px; cursor: pointer; font-family: inherit; transition: all .13s; }
+    .copy:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .copy.ok { background: #276749; color: #fff; border-color: #276749; }
+
+    .info { background: var(--accent-light); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 8px 12px; font-size: 12.5px; color: #1a365d; margin-bottom: 10px; line-height: 1.6; }
+    .info a { color: var(--accent); }
+
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 10px; }
+    th { background: #f0f0f0; padding: 7px 12px; text-align: left; font-weight: 600; border-bottom: 1px solid var(--border); }
+    td { padding: 7px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--accent-light); }
+    td code { background: #eee; padding: 1px 5px; border-radius: 3px; font-size: 12px; }
+
+    .img-row { display: flex; flex-wrap: wrap; gap: 14px; margin: 10px 0; align-items: flex-start; }
+    .img-row img, img.thumb { max-width: 100%; max-height: 320px; border-radius: var(--radius); border: 1px solid var(--border); cursor: zoom-in; transition: transform .2s; }
+    .img-row img:hover, img.thumb:hover { transform: scale(1.03); box-shadow: 0 4px 20px rgba(0,0,0,0.18); }
+
+    .img-caption { font-size: 12.5px; color: var(--text-muted); margin: 4px 0 14px; line-height: 1.6; }
+    .img-caption strong { color: var(--text); }
+    .img-caption .sep { color: #999; margin: 0 6px; }
+
+    ul.notes { padding-left: 18px; font-size: 12.5px; line-height: 1.85; }
+    ul.notes a { color: var(--accent); }
+    .link-row { display: flex; flex-wrap: wrap; gap: 14px; margin: 10px 0; font-size: 12.5px; }
+    .link-row a { color: var(--accent); text-decoration: none; }
+    .link-row a:hover { text-decoration: underline; }
+    .sub-title { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+
+    /* Lightbox pour les images */
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; }
+    .lightbox.on { display: flex; }
+    .lightbox img { max-width: 95%; max-height: 95%; border-radius: var(--radius); }
+
+    @media (max-width: 600px) {
+      header { padding: 0 .75rem; }
+      .search-bar { max-width: 140px; margin: 0 .5rem; }
+      main { padding: 1rem .75rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🩻 <a href="../../">Notes radiologiques</a><span>Dr. Bacha</span></div>
+  <div class="search-bar">
+    <span>🔍</span>
+    <input type="text" placeholder="Rechercher dans la page…" oninput="search(this.value)"/>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-item"><a class="nav-link" href="../../">Accueil</a></div>
+    <div class="nav-item">
+      <span class="nav-link">Femme ▾</span>
+      <div class="dropdown">
+        <a href="../../femme/urg/">Urg</a><a href="../../femme/EPP/">EPP</a><a href="../../femme/seins/">Seins</a>
+        <a href="../../femme/uterus/">Utérus</a><a href="../../femme/ovaires/">Ovaires</a><a href="../../femme/hystero/">Hystéro</a>
+        <a href="../../femme/prolapsus/">Prolapsus</a><a href="../../femme/pelviscanner/">Pelviscanner</a>
+        <a href="../../femme/malformations/">Malformations</a><a href="../../femme/puberte/">Puberté précoce</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link">Thorax ▾</span>
+      <div class="dropdown">
+        <a href="../../thorax/urgences/">Urgences</a><a href="../../thorax/nodules/">Nodules</a><a href="../../thorax/mediastin/">Médiastin</a>
+        <a href="../../thorax/infections/">Infections</a><a href="../../thorax/bronches/">Bronches</a><a href="../../thorax/cavites/">Cavités</a>
+        <a href="../../thorax/plevre/">Plèvre</a><a href="../../thorax/malfo/">Malfo</a><a href="../../thorax/PID/">PID</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link">Cardio ▾</span>
+      <div class="dropdown">
+        <a href="../../cardio/EI/">EI</a><a href="../../cardio/FA/">FA</a><a href="../../cardio/AAo/">AAo</a>
+        <a href="../../cardio/malfo/">Malfo</a><a href="../../cardio/CAC/">Score CAC</a><a href="../../cardio/CAD-RADS/">CAD-RADS</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link active">Neuro ▾</span>
+      <div class="dropdown">
+        <a href="../mort/">Mort</a><a href="../AVC/">AVC</a><a href="./" style="color:var(--accent);font-weight:600;">TC</a>
+        <a href="../CR/">CR</a><a href="../SEP/">SEP</a><a href="../GBM/">GBM</a>
+        <a href="../HTIC/">h/HTIC</a><a href="../Parkinson/">Parkinson</a>
+        <a href="../Demences/">Démences</a><a href="../Hypophyse/">Hypophyse</a><a href="../Pediatrie/">Pédiatrie</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link">ORL ▾</span>
+      <div class="dropdown">
+        <a href="../../ORL/amygdales/">Amygdalite</a><a href="../../ORL/tumeurs/">Tumeurs</a><a href="../../ORL/sinus/">Sinus</a>
+        <a href="../../ORL/CR/">CR</a><a href="../../ORL/rocher/">Rocher</a><a href="../../ORL/pediatrie/">Pédiatrie</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link">Uro ▾</span>
+      <div class="dropdown">
+        <a href="../../uro/reins/">Reins</a><a href="../../uro/vessie/">Vessie</a><a href="../../uro/greffon/">Greffon</a>
+        <a href="../../uro/lithiase/">Lithiase</a><a href="../../uro/prostate/">Prostate</a><a href="../../uro/ouraque/">Ouraque</a>
+        <a href="../../uro/lymphome/">Lymphome</a><a href="../../uro/derivations/">Dérivations</a>
+        <a href="../../uro/retroperitoine/">Rétropéritoine</a><a href="../../uro/malfo/">Malformations</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link">Dig ▾</span>
+      <div class="dropdown">
+        <a href="../../dig/anatomie/">Anat</a><a href="../../dig/foie/">Foie</a><a href="../../dig/rate/">Rate</a>
+        <a href="../../dig/grele/">Grêle</a><a href="../../dig/pancreas/">Pancréas</a><a href="../../dig/surrenales/">Surrénales</a>
+        <a href="../../dig/caustique/">Caustique</a><a href="../../dig/pediatrie/">Urg péd</a><a href="../../dig/gestes/">Gestes</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link">Os ▾</span>
+      <div class="dropdown">
+        <a href="../../os/echorx/">Echo et Rx</a><a href="../../os/inflammatoire/">Inflammatoire</a>
+        <a href="../../os/fractures/">Fractures</a><a href="../../os/tumeurs/">Tumeurs</a>
+        <a href="../../os/rachis/">Rachis</a><a href="../../os/genou/">Genou</a>
+      </div>
+    </div>
+    <div class="nav-item"><a class="nav-link" href="../../PDC/">PDC</a></div>
+    <div class="nav-item"><a class="nav-link" href="../../AVP/">AVP</a></div>
+    <div class="nav-item">
+      <span class="nav-link">Outils ▾</span>
+      <div class="dropdown">
+        <a href="../../outils/PSAd/">PSAd</a><a href="../../outils/dose/">Dose</a><a href="../../outils/haller/">Haller</a>
+        <a href="../../outils/RECIST/">RECIST</a><a href="../../outils/cheson/">Cheson</a><a href="../../outils/prostate/">Prostate</a>
+        <a href="../../outils/thyroide/">Thyroïde</a><a href="../../outils/NASCET/">NASCET</a><a href="../../outils/volumes/">Volumes</a>
+        <a href="../../outils/pasvenu/">Pas venu</a><a href="../../outils/fleischner/">Fleischner</a>
+        <a href="../../outils/biometrie/">Biométrie neuropéd</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <h1 class="page-title">
+    <a href="https://onclepaul.fr/wp-content/uploads/2011/07/Trauma-cranio-encéphalique-2018.pdf" target="_blank">
+      Traumatismes cranio-faciaux
+    </a>
+  </h1>
+
+  <!-- ══ COMPTES-RENDUS TYPES ══ -->
+  <div class="block">
+    <div class="block-header">Compte-rendu type</div>
+    <div class="block-body">
+      <div class="tabs">
+        <button class="tab on" onclick="T(this,'cr','cr-vieux')">Vieux</button>
+        <button class="tab" onclick="T(this,'cr','cr-jeune')">Jeune</button>
+      </div>
+
+      <div id="cr-vieux" class="panel on">
+        <div class="cr"><pre id="p-cr-vieux">Acquisition spiralée sur le crâne sans injection.
+
+Structures médianes encéphaliques en place.
+Pas de lésion hémorragique intra ou péri-cérébrale récente.
+Elargissement passif des espaces liquidiens intra et péri-cérébraux.
+Bonne aération des sinus de la face et des cellules mastoïdiennes.
+Pas de lésion osseuse post-traumatique.</pre><button class="copy" onclick="C('p-cr-vieux',this)">Copier</button></div>
+      </div>
+
+      <div id="cr-jeune" class="panel">
+        <div class="cr"><pre id="p-cr-jeune">Acquisition spiralée sur le crâne sans injection.
+
+Structures médianes encéphaliques en place.
+Pas de lésion hémorragique intracrânienne récente.
+Respect des espaces liquidiens intra et péri-cérébraux.
+Bonne aération des sinus de la face et des cellules mastoïdiennes.
+Pas de lésion osseuse post-traumatique.</pre><button class="copy" onclick="C('p-cr-jeune',this)">Copier</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FRACTURES DE LA FACE - LE FORT ══ -->
+  <div class="block">
+    <div class="block-header">Fractures de Le Fort</div>
+    <div class="block-body">
+      <div class="img-row">
+        <img class="thumb" src="https://drlef.fr/neuro/assets/lefort.jpg" alt="Fractures de Le Fort"/>
+      </div>
+      <div class="img-caption">
+        --------------- <strong>ssi # apophyse ptérygoïde</strong> ---------------<br/>
+        Le Fort <strong>2 et 3</strong> <span class="sep">/!\</span> brèche ostéo-méningée et fistule carotido-caverneuse
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CNEMFO ══ -->
+  <div class="block">
+    <div class="block-header">CNEMFO (complexe naso-ethmoïdo-maxillo-fronto-orbitaire)</div>
+    <div class="block-body">
+      <div class="img-row">
+        <img class="thumb" src="https://drlef.fr/neuro/assets/CNEMFO.jpg" alt="Fracture CNEMFO"/>
+      </div>
+      <div class="img-caption">
+        Fracture frontale associée ++<span class="sep">,</span> <span class="sep">/!\</span> nerf alvéolaire inférieur (V2)
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ZYGOMA ══ -->
+  <div class="block">
+    <div class="block-header">Fracture du zygoma</div>
+    <div class="block-body">
+      <div class="img-row">
+        <img class="thumb" src="https://drlef.fr/neuro/assets/zygoma.jpg" alt="Fracture du zygoma"/>
+      </div>
+      <div class="img-caption">
+        Muscle masséter <span class="sep">⇒</span> déplacement ++
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MANDIBULE ══ -->
+  <div class="block">
+    <div class="block-header">Fracture de la mandibule</div>
+    <div class="block-body">
+      <div class="img-row">
+        <img class="thumb" src="https://drlef.fr/neuro/assets/mandibule.jpg" alt="Fracture de la mandibule"/>
+      </div>
+      <div class="img-caption">
+        Bifocale dans <strong>30%</strong> des cas<span class="sep">,</span> <span class="sep">/!\</span> nerf alvéolaire inférieur (V3)
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ROCHER ══ -->
+  <div class="block">
+    <div class="block-header">Fractures du rocher</div>
+    <div class="block-body">
+      <div class="img-row">
+        <img class="thumb" src="https://drlef.fr/neuro/assets/rocher.jpg" alt="Fractures du rocher"/>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>80% longitudinale</th>
+            <th>20% transversale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hémotympan, luxation incudo-malléaire, PFP</td>
+            <td>Cophose, vertiges, PFP</td>
+          </tr>
+          <tr>
+            <td>Extralabyrinthique ++ ± # tegmen</td>
+            <td><span style="color:#c53030;">/!\</span> translabyrinthique ++</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ LIENS UTILES ══ -->
+  <div class="block">
+    <div class="block-header">Liens utiles</div>
+    <div class="block-body">
+      <div class="link-row">
+        <a href="https://www.maxilloclic.com/traumatisme-sur-dent-definitive" target="_blank">🦷 Trauma dentaire</a>
+        <a href="https://onclepaul.fr/wp-content/uploads/2011/07/C_est-quoi-ce-truc-dans-l_oeil-JFR-2018.pdf" target="_blank">👁️ C'est quoi ce truc dans l'œil (JFR 2018)</a>
+        <a href="https://www.ajronline.org/doi/10.2214/AJR.14.13415" target="_blank">🧠 Lésions de la voûte crânienne (AJR)</a>
+        <a href="https://lamediatheque.radiologie.fr/mediatheque/media.aspx?mediaId=11915&channel=3277" target="_blank">📚 Médiathèque SFR — Voûte crânienne</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DD HYPERFLAIR SOUS-ARACHNOÏDIEN ══ -->
+  <div class="block">
+    <div class="block-header">DD HyperFLAIR sous-arachnoïdien</div>
+    <div class="block-body">
+      <ul class="notes">
+        <li>Artefacts (entrée de coupe / métal / maquillage)</li>
+        <li>Sang frais</li>
+        <li>Méningite infectieuse / carcinomateuse</li>
+        <li>Hyperoxygénation (FiO₂ = 100%)</li>
+        <li>Injection récente de gadolinium</li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+
+<!-- Lightbox pour zoom images -->
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('on')">
+  <img id="lightbox-img" src="" alt=""/>
+</div>
+
+<script>
+function T(btn, group, panelId) {
+  const tabsEl = btn.closest('.tabs');
+  const container = tabsEl.parentElement;
+  tabsEl.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  Array.from(container.children).forEach(el => { if (el.classList.contains('panel')) el.classList.remove('on'); });
+  btn.classList.add('on');
+  document.getElementById(panelId).classList.add('on');
+}
+
+function C(id, btn) {
+  navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
+    btn.textContent = '✓ Copié';
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = 'Copier'; btn.classList.remove('ok'); }, 2000);
+  });
+}
+
+function search(q) {
+  q = q.toLowerCase().trim();
+  document.querySelectorAll('.block').forEach(b => {
+    b.style.display = (!q || b.textContent.toLowerCase().includes(q)) ? '' : 'none';
+  });
+}
+
+/* Lightbox : clic sur thumb pour zoom */
+document.querySelectorAll('img.thumb').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('on');
+  });
+});
+
+/* ============ MENU DEROULANT (identique à index.html) ============ */
+(function() {
+  const navItems = document.querySelectorAll('.nav-item');
+
+  function closeAll() {
+    navItems.forEach(it => it.classList.remove('open'));
+  }
+
+  function positionDropdown(item) {
+    const link = item.querySelector('.nav-link');
+    const dd = item.querySelector('.dropdown');
+    if (!link || !dd) return;
+    const r = link.getBoundingClientRect();
+    dd.style.top = r.bottom + 'px';
+    const ddWidth = dd.offsetWidth || 170;
+    let left = r.left;
+    if (left + ddWidth > window.innerWidth - 8) {
+      left = Math.max(8, window.innerWidth - ddWidth - 8);
+    }
+    dd.style.left = left + 'px';
+  }
+
+  navItems.forEach(item => {
+    const link = item.querySelector('.nav-link');
+    const dd = item.querySelector('.dropdown');
+    if (!link || !dd) return;
+
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      const wasOpen = item.classList.contains('open');
+      closeAll();
+      if (!wasOpen) {
+        item.classList.add('open');
+        positionDropdown(item);
+      }
+    });
+
+    item.addEventListener('mouseenter', () => positionDropdown(item));
+  });
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.nav-item') && !e.target.closest('.lightbox')) closeAll();
+  });
+
+  const nav = document.querySelector('nav');
+  if (nav) nav.addEventListener('scroll', closeAll, { passive: true });
+
+  window.addEventListener('resize', () => {
+    const open = document.querySelector('.nav-item.open');
+    if (open) positionDropdown(open);
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeAll();
+      document.getElementById('lightbox').classList.remove('on');
+    }
+  });
+})();
+</script>
+</body>
+</html>
